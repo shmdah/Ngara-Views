@@ -93,6 +93,15 @@
             color: var(--accent);
         }
 
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
@@ -112,11 +121,6 @@
 
         nav ul li a:hover {
             color: var(--accent);
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
         }
 
         .btn {
@@ -436,64 +440,114 @@
             opacity: 0.7;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            backdrop-filter: blur(5px);
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
         }
 
-        .modal-content {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 500px;
-            margin: 50px auto;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
                 gap: 20px;
             }
-
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 25px;
+                right: 20px;
+            }
+            
+            nav {
+                width: 100%;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
             nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
             }
-
+            
             nav ul li {
-                margin: 5px 10px;
+                margin: 10px 0;
             }
-
+            
             .hero h1 {
                 font-size: 2.5rem;
             }
-
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
             .booking-form {
                 grid-template-columns: 1fr;
             }
-
+            
             .gallery-grid {
                 grid-template-columns: 1fr;
             }
-
+            
             .reviews-container {
                 grid-template-columns: 1fr;
             }
-
+            
             .contact-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .booking-card,
+            .contact-info,
+            .contact-form,
+            .review-card {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                width: 100%;
             }
         }
     </style>
@@ -512,7 +566,12 @@
                 <i class="fas fa-hotel"></i>
                 NGARA VIEWS
             </div>
-            <nav>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
                 <ul>
                     <li><a href="#" class="active">Home</a></li>
                     <li><a href="#gallery">Gallery</a></li>
@@ -520,10 +579,6 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <div class="auth-buttons">
-                <button class="btn btn-secondary" onclick="openModal('loginModal')">Login</button>
-                <button class="btn btn-primary" onclick="openModal('registerModal')">Sign Up</button>
-            </div>
         </header>
 
         <!-- Hero Section -->
@@ -801,62 +856,6 @@
         </div>
     </footer>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Login to Your Account</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email Address</label>
-                    <input type="email" class="form-control" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" class="form-control" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Login</button>
-            </form>
-            <p style="text-align: center; margin-top: 15px;">
-                Don't have an account? <a href="#" onclick="openModal('registerModal'); closeModal('loginModal')" style="color: var(--accent);">Sign up here</a>
-            </p>
-            <button onclick="closeModal('loginModal')" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer;">×</button>
-        </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Create New Account</h2>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="regName">Full Name</label>
-                    <input type="text" class="form-control" id="regName" required>
-                </div>
-                <div class="form-group">
-                    <label for="regEmail">Email Address</label>
-                    <input type="email" class="form-control" id="regEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="regPhone">Phone Number</label>
-                    <input type="tel" class="form-control" id="regPhone" required>
-                </div>
-                <div class="form-group">
-                    <label for="regPassword">Password</label>
-                    <input type="password" class="form-control" id="regPassword" required>
-                </div>
-                <div class="form-group">
-                    <label for="regConfirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="regConfirmPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Create Account</button>
-            </form>
-            <p style="text-align: center; margin-top: 15px;">
-                Already have an account? <a href="#" onclick="openModal('loginModal'); closeModal('registerModal')" style="color: var(--accent);">Login here</a>
-            </p>
-            <button onclick="closeModal('registerModal')" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer;">×</button>
-        </div>
-    </div>
-
     <script>
         // Mouse movement effects
         document.addEventListener('mousemove', (e) => {
@@ -873,41 +872,35 @@
             lightingEffect.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        // Modal functions
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            if (mainNav.classList.contains('active')) {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
             }
-        }
+        });
+
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    mainNav.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
 
         // Form handling
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Thank you for your booking request! We will contact you shortly to confirm your reservation.');
             // In a real application, this would send data to backend
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Login logic would go here
-            alert('Login functionality would connect to backend.');
-            closeModal('loginModal');
-        });
-
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Registration logic would go here
-            alert('Registration would connect to backend.');
-            closeModal('registerModal');
         });
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
