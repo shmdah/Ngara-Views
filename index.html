@@ -79,6 +79,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
+            position: relative; /* For absolute positioning of mobile menu btn */
         }
 
         .logo {
@@ -100,6 +101,12 @@
             color: var(--text);
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1002; /* Ensure it stays on top */
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
         }
 
         nav ul {
@@ -123,6 +130,34 @@
             color: var(--accent);
         }
 
+        /* --- CREDITS (Code by Thursday) --- */
+        .credits {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 30px; /* Spacing from the nav links */
+        }
+
+        .credits span {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .credits a {
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .credits a:hover {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Buttons */
         .btn {
             padding: 10px 25px;
             border-radius: 25px;
@@ -453,24 +488,31 @@
 
         @media (max-width: 768px) {
             header {
-                flex-direction: column;
-                gap: 20px;
+                /* Removed column flex to allow positioning */
+                display: flex;
+                flex-direction: row; 
             }
             
             .mobile-menu-btn {
                 display: block;
-                position: absolute;
-                top: 25px;
-                right: 20px;
             }
             
             nav {
-                width: 100%;
                 display: none;
+                width: 100%;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(15px);
+                padding: 20px 0;
+                border-top: 1px solid var(--glass-border);
+                border-bottom: 1px solid var(--glass-border);
             }
             
             nav.active {
-                display: block;
+                display: flex;
+                flex-direction: column;
             }
             
             nav ul {
@@ -480,9 +522,31 @@
             }
             
             nav ul li {
-                margin: 10px 0;
+                margin: 15px 0;
             }
             
+            /* --- CREDITS MOBILE FIX --- */
+            .credits {
+                position: fixed;
+                bottom: 15px;
+                left: 0;
+                width: 100%;
+                justify-content: center;
+                z-index: 2000;
+                pointer-events: none; /* Allow clicks through background */
+                margin-left: 0;
+                background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                padding-bottom: 5px;
+            }
+
+            .credits a {
+                pointer-events: auto; /* Enable link clicking */
+            }
+
+            footer {
+                padding-bottom: 60px; /* Space for fixed credits */
+            }
+
             .hero h1 {
                 font-size: 2.5rem;
             }
@@ -553,14 +617,12 @@
     </style>
 </head>
 <body>
-    <!-- Background Effects -->
     <div class="parallax-container">
         <div class="parallax-bg" id="parallaxBg"></div>
     </div>
     <div class="lighting-effect" id="lightingEffect"></div>
 
     <div class="container">
-        <!-- Header -->
         <header>
             <div class="logo">
                 <i class="fas fa-hotel"></i>
@@ -578,10 +640,16 @@
                     <li><a href="#reviews">Reviews</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                
+                <div class="credits">
+                    <span>Code by Thursday</span>
+                    <a href="https://www.linkedin.com/in/albert-juma-62a92130b/" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
             </nav>
         </header>
 
-        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
                 <h1>Experience Luxury at NGARA VIEWS</h1>
@@ -590,7 +658,6 @@
             </div>
         </section>
 
-        <!-- Booking Section -->
         <section class="booking-section" id="booking">
             <h2 class="section-title">Book Your Stay</h2>
             <p class="section-subtitle">Experience luxury accommodation with our premium rooms and exclusive rooftop swimming pool</p>
@@ -642,7 +709,6 @@
             </div>
         </section>
 
-        <!-- Gallery Section -->
         <section id="gallery">
             <h2 class="section-title">Our Gallery</h2>
             <p class="section-subtitle">Take a visual journey through our luxurious accommodations and amenities</p>
@@ -669,7 +735,6 @@
             </div>
         </section>
 
-        <!-- Reviews Section -->
         <section id="reviews">
             <h2 class="section-title">Guest Reviews</h2>
             <p class="section-subtitle">See what our guests are saying about their experience at NGARA VIEWS</p>
@@ -734,7 +799,6 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact">
             <h2 class="section-title">Contact Us</h2>
             <p class="section-subtitle">Get in touch with us for any inquiries or special requests</p>
@@ -806,7 +870,6 @@
         </section>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -900,13 +963,11 @@
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Thank you for your booking request! We will contact you shortly to confirm your reservation.');
-            // In a real application, this would send data to backend
         });
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Thank you for your message! We will get back to you soon.');
-            // In a real application, this would send data to backend
         });
 
         // Set minimum date for check-in to today
